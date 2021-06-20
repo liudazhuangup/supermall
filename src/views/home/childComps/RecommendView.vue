@@ -25,13 +25,13 @@ export default {
 <style scoped>
 #recommend {
   display: flex;
-  width: 100%;
+  /* width: 100%; */
   font-size: 12px;
   background-color: #fff;
   border-radius: 10px;
   text-align: center;
   padding: 15px 0;
-  margin-top: 8px;
+  margin: 8px 5px;
 }
 .recommend-item {
   flex: 1;

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 1883288 */
-  src: url('iconfont.woff2?t=1623936814758') format('woff2'),
-       url('iconfont.woff?t=1623936814758') format('woff'),
-       url('iconfont.ttf?t=1623936814758') format('truetype');
+  src: url('iconfont.woff2?t=1624188026637') format('woff2'),
+       url('iconfont.woff?t=1624188026637') format('woff'),
+       url('iconfont.ttf?t=1624188026637') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fanhuidingbu:before {
+  content: "\e6a2";
+}
+
+.icon-star:before {
+  content: "\e6fb";
 }
 
 .icon-wo:before {

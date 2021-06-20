@@ -12,6 +12,7 @@ export default {};
 
 #tab-bar {
   display: flex;
+  padding-bottom: 15px;
   background-color: #fff;
   position: fixed;
   bottom: 0;

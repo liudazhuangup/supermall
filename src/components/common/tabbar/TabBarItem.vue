@@ -49,11 +49,11 @@ export default {
   height: 49px;
 }
 .tab-bar-item div:first-child {
-  margin-top: 3px;
-  font-size: 22px;
+  margin-top: 5px;
+  font-size: 20px;
 }
 .tab-bar-item span {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 </style>
