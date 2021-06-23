@@ -3,14 +3,21 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="content" ref='scroll'>
+    <scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contentScroll"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
       <home-swiper :banners="banners" />
       <recommend-view :recommends="recommends" />
       <feature-view />
       <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick" />
       <goods-list :goods="showGoods" />
     </scroll>
-    <back-top @click.native='backTop' />
+    <back-top @click.native="backTop" v-show="isShowBackTop" />
   </div>
 </template>
 
@@ -47,7 +54,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: "pop"
+      currentType: "pop",
+      isShowBackTop: false
     };
   },
   created() {
@@ -70,8 +78,16 @@ export default {
       console.log(index);
       this.currentType = index < 1 ? "pop" : index > 1 ? "sell" : "new";
     },
-    backTop(){
-      this.$refs.scroll.scrollTo(0,0)
+    backTop() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+    contentScroll(position) {
+      // console.log(position);
+      this.isShowBackTop = -position.y > 1000;
+    },
+    loadMore() {
+      // console.log("jaizaigengd");
+      this.getHomeGoods(this.currentType);
     },
     // 网络请求相关方法
     getHomeMultidata() {
@@ -86,6 +102,8 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+
+        this.$refs.scroll.finishPullUp()
       });
     }
   }
@@ -113,4 +131,9 @@ export default {
   left: 0;
   right: 0;
 }
+/* .content{
+  height:calc(100% - 133px);
+  overflow: hidden;
+  margin-top: 64px;
+} */
 </style>
