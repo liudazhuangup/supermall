@@ -28,8 +28,7 @@ export default {
   /* column-count: 2;
   column-gap: 0; */
   display: flex;
+  justify-content: space-evenly;
   flex-flow: row wrap;
-  width: 320px;
-  height: 1000px;
 }
 </style>

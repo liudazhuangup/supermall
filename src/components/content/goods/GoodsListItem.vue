@@ -1,14 +1,11 @@
 <template>
-  <div class="goods-item-wrapper">
     <div class="goods-item">
-      <img :src="goodsItem.show.img" alt />
+      <img :src="goodsItem.show.img" @load='imageLoad' />
       <div>
         <p>{{goodsItem.title}}</p>
         <span class="price">￥{{goodsItem.price}}</span>
         <span class="collect iconfont">&#xe6fb;{{goodsItem.cfav}}</span>
       </div>
-    </div>
-    <!-- <strong>8</strong> -->
   </div>
 </template>
 
@@ -21,23 +18,25 @@ export default {
         return {};
       }
     }
+  },
+  methods:{
+    imageLoad(){
+      // console.log('imagesload');
+      this.$bus.$emit('itemImageLoad')
+    }
   }
 };
 </script>
 
 <style scoped>
-.goods-item-wrapper{
-  /* 设置瀑布流 */
-  display: flex;
-  flex-direction: column;
-  width: calc(100% / 2);
-}
 .goods-item {
   border-radius: 10px;
   background-color: #fff;
   margin: 0 4px 10px 4px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   overflow: auto;
+  width: 45%;
+  height: 100%;
 
 
   /* 设置瀑布流 */
