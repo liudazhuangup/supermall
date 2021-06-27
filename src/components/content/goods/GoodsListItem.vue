@@ -1,11 +1,11 @@
 <template>
-    <div class="goods-item">
-      <img :src="goodsItem.show.img" @load='imageLoad' />
-      <div>
-        <p>{{goodsItem.title}}</p>
-        <span class="price">￥{{goodsItem.price}}</span>
-        <span class="collect iconfont">&#xe6fb;{{goodsItem.cfav}}</span>
-      </div>
+  <div class="goods-item" @click="itemClick">
+    <img :src="showImage" @load="imageLoad" />
+    <div>
+      <p>{{goodsItem.title}}</p>
+      <span class="price">￥{{goodsItem.price}}</span>
+      <span class="collect iconfont">&#xe6fb;{{goodsItem.cfav}}</span>
+    </div>
   </div>
 </template>
 
@@ -19,10 +19,21 @@ export default {
       }
     }
   },
-  methods:{
-    imageLoad(){
-      // console.log('imagesload');
-      this.$bus.$emit('itemImageLoad')
+  computed: {
+    showImage() {
+      return this.goodsItem.image || this.goodsItem.show.img;
+    }
+  },
+  methods: {
+    imageLoad() {
+      if (this.$route.path.indexOf("/home") !== -1) {
+        this.$bus.$emit("homeItemImageLoad");
+      }else if(this.$route.path.indexOf('/detail') !== -1){
+        this.$bus.$emit("detailItemImageLoad");
+      }
+    },
+    itemClick() {
+      this.$router.push("/detail/" + this.goodsItem.iid);
     }
   }
 };
@@ -38,9 +49,8 @@ export default {
   width: 45%;
   height: 100%;
 
-
   /* 设置瀑布流 */
-   /* display: flex;
+  /* display: flex;
   flex-direction: row;
   height: 100%;
   overflow: auto; */

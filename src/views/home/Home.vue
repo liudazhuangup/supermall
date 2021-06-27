@@ -38,13 +38,14 @@ import NavBar from "@/components/common/navbar/NavBar";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goods/GoodsList";
 import Scroll from "@/components/common/scroll/Scroll";
-import BackTop from "@/components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoods } from "@/network/home";
 
 import { debounce } from "@/common/utils";
+import { backTopMixin } from "@/common/mixin";
 
 export default {
+  mixins: [backTopMixin],
   components: {
     HomeSwiper,
     RecommendView,
@@ -52,7 +53,6 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
     NavBar
   },
   data() {
@@ -65,10 +65,10 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
-      saveY:0
+      saveY: 0,
+      itemImgListener: null
     };
   },
   created() {
@@ -83,9 +83,13 @@ export default {
   mounted() {
     // 监听item中图片加载完成
     const refresh = debounce(this.$refs.scroll.refresh, 200);
-    this.$bus.$on("itemImageLoad", () => {
+    this.itemImgListener = () => {
       refresh();
-    });
+    };
+    this.$bus.$on("homeItemImageLoad", this.itemImgListener);
+  },
+  destroyed() {
+    this.$bus.$off("homeItemImageLoad", this.itemImgListener);
   },
   methods: {
     // 事件监听相关方法
@@ -95,12 +99,10 @@ export default {
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backTop() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
     contentScroll(position) {
       // 1 判断backTop是否显示
-      this.isShowBackTop = -position.y > 1000;
+      // this.isShowBackTop = -position.y > BACK_POSITION;
+      this.listenShowBackTop(position);
 
       // 决定tabControl是否吸顶（position:fixed）
       this.isTabFixed = -position.y > this.tabOffsetTop;
@@ -137,13 +139,12 @@ export default {
   },
   activated() {
     // console.log("active");
-    this.$refs.scroll.refresh()
-    this.$refs.scroll.scrollTo(0,this.saveY,0)
+    this.$refs.scroll.refresh();
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
   },
   deactivated() {
     // console.log("deactive");
-    this.saveY = this.$refs.scroll.getScrollY()
-    
+    this.saveY = this.$refs.scroll.getScrollY();
   }
 };
 </script>
