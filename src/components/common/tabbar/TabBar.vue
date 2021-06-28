@@ -1,5 +1,5 @@
 <template>
-  <div id="tab-bar">
+  <div id="tab-bar" @scroll.prevent>
     <slot></slot>
   </div>
 </template>

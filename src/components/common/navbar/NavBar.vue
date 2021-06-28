@@ -22,6 +22,10 @@ export default {};
   height: 64px;
   line-height: 82px;
   text-align: center;
+  /* position: fixed;
+  left: 0;
+  right: 0;
+  top: 0; */
 }
 .left,
 .right {

@@ -1,15 +1,19 @@
 <template>
   <div id="detail">
     <detail-nav-bar class="detail-nav" @titleClick="titleClick" ref="nav" />
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
-      <detail-swiper :top-images="topImages" />
-      <detail-base-info :goods="goods" />
-      <detail-shop-info :shop="shop" />
-      <detail-comment-info :comment-info="commentInfo" ref="comment" />
-      <detail-param-info :param-info="paramInfo" ref="params" />
-      <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad" />
-      <goods-list :goods="recommend" ref="recommend" />
-    </scroll>
+
+    <div class="scroll-wrapper">
+      <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+        <detail-swiper :top-images="topImages" />
+        <detail-base-info :goods="goods" />
+        <detail-shop-info :shop="shop" />
+        <detail-comment-info :comment-info="commentInfo" ref="comment" />
+        <detail-param-info :param-info="paramInfo" ref="params" />
+        <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad" />
+        <goods-list :goods="recommend" ref="recommend" />
+      </scroll>
+    </div>
+
     <back-top @click.native="backTop" v-show="isShowBackTop" />
     <detail-bottom-bar @addToCart="addToCart" />
   </div>
@@ -118,7 +122,7 @@ export default {
         this.themeTopYs.push(this.$refs.params.$el.offsetTop);
         this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
         this.themeTopYs.push(Number.MAX_VALUE);
-        console.log(this.themeTopYs);
+        // console.log(this.themeTopYs);
       }, 200);
     });
   },
@@ -167,9 +171,9 @@ export default {
       product.image = this.topImages[0];
       product.title = this.goods.title;
       product.desc = this.goods.desc;
-      product.price = this.goods.newPrice;
+      product.price = this.goods.realPrice;
       product.iid = this.iid;
-      // console.log(product);
+      // console.log(this.goods);
 
       // 2 将商品添加到购物车
       this.$store.dispatch("addCart", product);
@@ -182,8 +186,12 @@ export default {
 #detail {
   height: 100vh;
 }
-.content {
+.scroll-wrapper {
   height: calc(100% - 128px);
+}
+.content {
+  height: 100%;
+  overflow: hidden;
 }
 .detail-nav {
   position: relative;

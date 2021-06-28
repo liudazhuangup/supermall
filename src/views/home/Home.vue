@@ -11,20 +11,26 @@
       v-show="isTabFixed"
     />
 
-    <scroll
-      class="content"
-      ref="scroll"
-      :probe-type="3"
-      @scroll="contentScroll"
-      :pull-up-load="true"
-      @pullingUp="loadMore"
-    >
-      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
-      <recommend-view :recommends="recommends" />
-      <feature-view />
-      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick" ref="tabControl2" />
-      <goods-list :goods="showGoods" />
-    </scroll>
+    <div class="scroll-wrapper">
+      <scroll
+        class="content"
+        ref="scroll"
+        :probe-type="3"
+        @scroll="contentScroll"
+        :pull-up-load="true"
+        @pullingUp="loadMore"
+      >
+        <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
+        <recommend-view :recommends="recommends" />
+        <feature-view />
+        <tab-control
+          :titles="['流行','新款','精选']"
+          @tabClick="tabClick"
+          ref="tabControl2"
+        />
+        <goods-list class="goods-list" :goods="showGoods" />
+      </scroll>
+    </div>
     <back-top @click.native="backTop" v-show="isShowBackTop" />
   </div>
 </template>
@@ -161,19 +167,25 @@ export default {
   color: #fff;
 }
 .tab-control {
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
   z-index: 1;
 }
+.goods-list{
+  margin-top: 45px;
+}
+.scroll-wrapper {
+  height: calc(100% - 128px);
+}
 .content {
-  position: absolute;
+  height: 100%;
+  overflow: hidden;
+  /* position: absolute;
   top: 64px;
   bottom: 64px;
   left: 0;
-  right: 0;
+  right: 0; */
 }
-/* .content{
-  height:calc(100% - 133px);
-  overflow: hidden;
-  margin-top: 64px;
-} */
+
 </style>
