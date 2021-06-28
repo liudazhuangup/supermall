@@ -44,6 +44,8 @@ import BackTop from "@/components/content/backTop/BackTop";
 import { debounce } from "@/common/utils";
 import { backTopMixin } from "@/common/mixin";
 
+import { mapActions } from "vuex";
+
 export default {
   name: "Detail",
   mixins: [backTopMixin],
@@ -138,6 +140,7 @@ export default {
     this.$bus.$off("detailItemImageLoad", this.itemImgListener);
   },
   methods: {
+    ...mapActions(["addCart"]),
     imageLoad() {
       this.$refs.scroll.refresh();
 
@@ -176,7 +179,10 @@ export default {
       // console.log(this.goods);
 
       // 2 将商品添加到购物车
-      this.$store.dispatch("addCart", product);
+      this.addCart(product).then(res => {
+        this.$toast.show(res);
+        
+      });
     }
   }
 };

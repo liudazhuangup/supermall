@@ -9,7 +9,7 @@
         <span class="total-text">合计:</span>
         <span class="total-price">￥{{totalPrice}}</span>
       </div>
-      <div class="calculate">去结算({{checkLength}})</div>
+      <div class="calculate" @click='calcClick'>去结算({{checkLength}})</div>
     </div>
   </div>
 </template>
@@ -51,6 +51,11 @@ export default {
       } else {
         // 部分或全部不选择时执行
         this.$store.commit("checkTrue");
+      }
+    },
+    calcClick(){
+      if(!this.isSelectAll){
+        this.$toast.show('请选择要购买的商品',2000)
       }
     }
   }

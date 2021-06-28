@@ -9,6 +9,12 @@ const Detail = () => import('@/views/detail/Detail')
 
 Vue.use(VueRouter)
 
+// 防止多次点击相同路由控制台报错
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 const routes = [{
     path: '/',
     redirect: '/home'
